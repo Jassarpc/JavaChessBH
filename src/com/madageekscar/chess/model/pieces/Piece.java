@@ -4,7 +4,7 @@ import com.madageekscar.chess.model.Alliance;
 import com.madageekscar.chess.model.board.Board;
 import com.madageekscar.chess.model.board.Move;
 
-import java.util.List;
+import java.util.Collection;
 
 public abstract class Piece {
     protected final int cordinate;
@@ -15,7 +15,7 @@ public abstract class Piece {
         this.alliance = alliance;
     }
 
-    public abstract List<Move> calculateLegalMove(final Board board);
+    public abstract Collection<Move> calculateLegalMove(final Board board);
 
     public Alliance getAlliance() {
         return alliance;

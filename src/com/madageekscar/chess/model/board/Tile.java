@@ -3,19 +3,19 @@ package com.madageekscar.chess.model.board;
 import com.google.common.collect.ImmutableMap;
 import com.madageekscar.chess.model.pieces.Piece;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 public abstract class Tile {
     protected  final int cordinate;
-    private Tile(int cordinate){
+
+    private Tile(final int cordinate) {
         this.cordinate=cordinate;
     }
     private final static Map<Integer,EmptyTile> EMPTY_TILES_CACHE = createAllPossibleEmptyTile();
     private static Map<Integer,EmptyTile> createAllPossibleEmptyTile(){
         Map<Integer, EmptyTile> emptyTileMap = new HashMap<>();
-        for (int x = 0 ; x < 64; x ++){
+        for (int x = 0; x < BoardUtils.NUM_TILES; x++) {
             emptyTileMap.put(x,new EmptyTile(x));
         }
         //        Collections.unmodifiableMap()
