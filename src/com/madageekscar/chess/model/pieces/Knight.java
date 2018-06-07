@@ -16,8 +16,8 @@ import java.util.List;
 public class Knight extends Piece {
     private final static int[] CANDIDATE_MOVE_CORDINATES = {-17, -15, -10, -6, 6, 10, 15, 17};
 
-    Knight(int cordinate, Alliance alliance) {
-        super(cordinate, alliance);
+    public Knight(Alliance alliance, int cordinate) {
+        super(cordinate, alliance, PieceType.KNIGHT);
     }
 
 
@@ -27,18 +27,28 @@ public class Knight extends Piece {
                 (candidateCordinate == 15));
     }
 
-    private static boolean isEightColumn(final int cordinate, final int candidateCordinate) {
-        return BoardUtils.EIGHT_COLUMN[cordinate] && ((candidateCordinate == 17) ||
-                (candidateCordinate == 10) || (candidateCordinate == -6) ||
-                (candidateCordinate == -15));
-    }
 
     private static boolean isSecondeColumn(final int cordinate, final int candidateCordinate) {
         return BoardUtils.SECONDE_COLUMN[cordinate] && ((candidateCordinate == -10) || (candidateCordinate == 6));
     }
 
+    private static boolean isEightColumn(final int cordinate, final int candidateCordinate) {
+        return BoardUtils.EIGHT_COLUMN[cordinate] && ((candidateCordinate == 17) ||
+                (candidateCordinate == 10) || (candidateCordinate == -6) ||
+                (candidateCordinate == -15));
+    }
     private static boolean isSevenColumn(final int cordinate, final int candidateCordinate) {
         return BoardUtils.SEVEN_COLUMN[cordinate] && ((candidateCordinate == 10) || (candidateCordinate == -6));
+    }
+
+    @Override
+    public String toString() {
+        return PieceType.KNIGHT.toString();
+    }
+
+    @Override
+    public Piece movedPiece(Move move) {
+        return new Knight(this.alliance, move.getDestCordinate());
     }
 
     @Override

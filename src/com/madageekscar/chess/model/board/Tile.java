@@ -21,10 +21,15 @@ public abstract class Tile {
         //        Collections.unmodifiableMap()
         return ImmutableMap.copyOf(emptyTileMap);
     }
-    private static Tile createTile(final int cordinate, final Piece piece){
+
+    public static Tile createTile(final int cordinate, final Piece piece) {
         return piece !=null ? new OccupiedTile(cordinate, piece): EMPTY_TILES_CACHE.get(cordinate);
     }
 
+    @Override
+    public String toString() {
+        return "-";
+    }
 
     public abstract boolean isOccuped();
     public abstract Piece getPiece();
@@ -54,6 +59,11 @@ public abstract class Tile {
         @Override
         public boolean isOccuped() {
             return true;
+        }
+
+        @Override
+        public String toString() {
+            return getPiece().getAlliance().isBlack() ? getPiece().toString().toLowerCase() : getPiece().toString();
         }
 
         @Override
