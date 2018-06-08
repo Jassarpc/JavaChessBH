@@ -1,6 +1,7 @@
 package com.madageekscar.chess.model.board;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import com.madageekscar.chess.model.Alliance;
 import com.madageekscar.chess.model.pieces.*;
 import com.madageekscar.chess.model.player.BlackPlayer;
@@ -12,7 +13,7 @@ import java.util.*;
 public class Board {
     private final List<Tile> gameBoard;
     private final Collection<Piece> whitePieces;
-    private final Collection<Piece> blackPieaces;
+    private final Collection<Piece> blackPieces;
 
     private final WhitePlayer whitePlayer;
     private final BlackPlayer blackPlayer;
@@ -20,10 +21,10 @@ public class Board {
 
     public Board(Builder b) {
         this.gameBoard = createGameBoard(b);
-        this.blackPieaces = calculateActivePieaces(this.gameBoard, Alliance.BLACK);
+        this.blackPieces = calculateActivePieaces(this.gameBoard, Alliance.BLACK);
         this.whitePieces = calculateActivePieaces(this.gameBoard, Alliance.WHITE);
         final Collection<Move> whiteStdLegalMoves = calculateLegalMove(this.whitePieces);
-        final Collection<Move> blackStdLegalMoves = calculateLegalMove(this.blackPieaces);
+        final Collection<Move> blackStdLegalMoves = calculateLegalMove(this.blackPieces);
         this.whitePlayer = new WhitePlayer(this, whiteStdLegalMoves, blackStdLegalMoves);
         this.blackPlayer = new BlackPlayer(this, blackStdLegalMoves, blackStdLegalMoves);
         this.currentPlayer = b.nextMoveMaker.choosePlayer(this.whitePlayer, this.blackPlayer);
@@ -45,49 +46,56 @@ public class Board {
     public static Board createStandardBoard() {
         final Builder builder = new Builder();
         //
-        builder.setPiece(new Rook(Alliance.BLACK, 0, Piece.PieceType.ROOK));
-        builder.setPiece(new Knight(Alliance.BLACK, 1, Piece.PieceType.KNIGHT));
-        builder.setPiece(new Bishop(Alliance.BLACK, 2, Piece.PieceType.BISHOP));
-        builder.setPiece(new Queen(Alliance.BLACK, 3, Piece.PieceType.QUEEN));
-        builder.setPiece(new King(Alliance.BLACK, 4, Piece.PieceType.KING));
-        builder.setPiece(new Bishop(Alliance.BLACK, 5, Piece.PieceType.BISHOP));
-        builder.setPiece(new Knight(Alliance.BLACK, 6, Piece.PieceType.KNIGHT));
-        builder.setPiece(new Rook(Alliance.BLACK, 7, Piece.PieceType.ROOK));
-        builder.setPiece(new Pawn(Alliance.BLACK, 8, Piece.PieceType.PAWN));
-        builder.setPiece(new Pawn(Alliance.BLACK, 9, Piece.PieceType.PAWN));
-        builder.setPiece(new Pawn(Alliance.BLACK, 10, Piece.PieceType.PAWN));
-        builder.setPiece(new Pawn(Alliance.BLACK, 11, Piece.PieceType.PAWN));
-        builder.setPiece(new Pawn(Alliance.BLACK, 12, Piece.PieceType.PAWN));
-        builder.setPiece(new Pawn(Alliance.BLACK, 13, Piece.PieceType.PAWN));
-        builder.setPiece(new Pawn(Alliance.BLACK, 14, Piece.PieceType.PAWN));
-        builder.setPiece(new Pawn(Alliance.BLACK, 15, Piece.PieceType.PAWN));
+        builder.setPiece(new Rook(Alliance.BLACK, 0));
+        builder.setPiece(new Knight(Alliance.BLACK, 1));
+        builder.setPiece(new Bishop(Alliance.BLACK, 2));
+        builder.setPiece(new Queen(Alliance.BLACK, 3));
+        builder.setPiece(new Bishop(Alliance.BLACK, 5));
+        builder.setPiece(new Knight(Alliance.BLACK, 6));
+        builder.setPiece(new Rook(Alliance.BLACK, 7));
+        builder.setPiece(new Pawn(Alliance.BLACK, 8));
+        builder.setPiece(new Pawn(Alliance.BLACK, 9));
+        builder.setPiece(new Pawn(Alliance.BLACK, 10));
+        builder.setPiece(new Pawn(Alliance.BLACK, 11));
+        builder.setPiece(new Pawn(Alliance.BLACK, 12));
+        builder.setPiece(new Pawn(Alliance.BLACK, 13));
+        builder.setPiece(new Pawn(Alliance.BLACK, 14));
+        builder.setPiece(new Pawn(Alliance.BLACK, 15));
         //
-        builder.setPiece(new Pawn(Alliance.WHITE, 48, Piece.PieceType.PAWN));
-        builder.setPiece(new Pawn(Alliance.WHITE, 49, Piece.PieceType.PAWN));
-        builder.setPiece(new Pawn(Alliance.WHITE, 50, Piece.PieceType.PAWN));
-        builder.setPiece(new Pawn(Alliance.WHITE, 51, Piece.PieceType.PAWN));
-        builder.setPiece(new Pawn(Alliance.WHITE, 52, Piece.PieceType.PAWN));
-        builder.setPiece(new Pawn(Alliance.WHITE, 53, Piece.PieceType.PAWN));
-        builder.setPiece(new Pawn(Alliance.WHITE, 54, Piece.PieceType.PAWN));
-        builder.setPiece(new Pawn(Alliance.WHITE, 55, Piece.PieceType.PAWN));
-        builder.setPiece(new Rook(Alliance.WHITE, 56, Piece.PieceType.ROOK));
-        builder.setPiece(new Knight(Alliance.WHITE, 57, Piece.PieceType.KNIGHT));
-        builder.setPiece(new Bishop(Alliance.WHITE, 58, Piece.PieceType.BISHOP));
-        builder.setPiece(new Queen(Alliance.WHITE, 59, Piece.PieceType.QUEEN));
-        builder.setPiece(new King(Alliance.WHITE, 60, Piece.PieceType.KING));
-        builder.setPiece(new Bishop(Alliance.WHITE, 61, Piece.PieceType.BISHOP));
-        builder.setPiece(new Knight(Alliance.WHITE, 62, Piece.PieceType.KNIGHT));
-        builder.setPiece(new Rook(Alliance.WHITE, 63, Piece.PieceType.ROOK));
+        builder.setPiece(new Pawn(Alliance.WHITE, 48));
+        builder.setPiece(new Pawn(Alliance.WHITE, 49));
+        builder.setPiece(new Pawn(Alliance.WHITE, 50));
+        builder.setPiece(new Pawn(Alliance.WHITE, 51));
+        builder.setPiece(new Pawn(Alliance.WHITE, 52));
+        builder.setPiece(new Pawn(Alliance.WHITE, 53));
+        builder.setPiece(new Pawn(Alliance.WHITE, 54));
+        builder.setPiece(new Pawn(Alliance.WHITE, 55));
+        builder.setPiece(new Rook(Alliance.WHITE, 56));
+        builder.setPiece(new Knight(Alliance.WHITE, 57));
+        builder.setPiece(new Bishop(Alliance.WHITE, 58));
+        builder.setPiece(new Queen(Alliance.WHITE, 59));
+        builder.setPiece(new King(Alliance.WHITE, 60));
+        builder.setPiece(new Bishop(Alliance.WHITE, 61));
+        builder.setPiece(new Knight(Alliance.WHITE, 62));
+        builder.setPiece(new Rook(Alliance.WHITE, 63));
         builder.setMoveMaker(Alliance.WHITE);
         return builder.build();
     }
 
+    public Iterable<Piece> getAllPieces() {
+        return Iterables.unmodifiableIterable(Iterables.concat(this.whitePieces, this.blackPieces));
+    }
+
+    public Iterable<Move> getAllLegalMoves() {
+        return Iterables.unmodifiableIterable(Iterables.concat(this.whitePlayer.getLegalMoves(),
+                this.blackPlayer.getLegalMoves()));
+    }
     public Collection<Piece> getWhitePieces() {
         return whitePieces;
     }
 
     public Collection<Piece> getBlackPieaces() {
-        return blackPieaces;
+        return blackPieces;
     }
 
     public WhitePlayer getWhitePlayer() {

@@ -11,12 +11,26 @@ public abstract class Piece {
     protected final Alliance alliance;
     protected final boolean isFirstMove;
     protected final PieceType pieceType;
+    private final int cachedHashCode;
 
     Piece(int cordinate, Alliance alliance, PieceType pieceType) {
         this.cordinate = cordinate;
         this.alliance = alliance;
         this.isFirstMove = false;
         this.pieceType = pieceType;
+        this.cachedHashCode = computeHashCode();
+    }
+
+    private int computeHashCode() {
+        int result = pieceType.hashCode();
+        result = 31 * result + alliance.hashCode();
+        result = 31 * result + cordinate;
+        result = 31 * result + (isFirstMove ? 1 : 0);
+        return result;
+    }
+
+    public int getCachedHashCode() {
+        return cachedHashCode;
     }
 
     public PieceType getPieceType() {
@@ -32,6 +46,30 @@ public abstract class Piece {
 
     public int getCordinate() {
         return cordinate;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = pieceType.hashCode();
+        result = 31 * result + alliance.hashCode();
+        result = 31 * result + cordinate;
+        result = 31 * result + (isFirstMove ? 1 : 0);
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof Piece)) {
+            return false;
+        }
+        final Piece otherPiece = (Piece) obj;
+        return cordinate == ((Piece) obj).cordinate &&
+                pieceType == ((Piece) obj).getPieceType() &&
+                alliance == ((Piece) obj).getAlliance() &&
+                isFirstMove == ((Piece) obj).isFirstMove();
     }
 
     public enum PieceType {

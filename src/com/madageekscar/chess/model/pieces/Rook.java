@@ -14,8 +14,8 @@ import java.util.List;
 public class Rook extends Piece {
     private final static int[] CANDIDATE_MOVE = {-8, -1, 1, 8};
 
-    public Rook(Alliance alliance, int cordinate, PieceType pieceType) {
-        super(cordinate, alliance, pieceType);
+    public Rook(Alliance alliance, int cordinate) {
+        super(cordinate, alliance, PieceType.ROOK);
     }
 
     public static boolean isFirstColumnExclusion(final int currentPosition, final int candidateOffset) {
@@ -28,7 +28,7 @@ public class Rook extends Piece {
 
     @Override
     public Piece movedPiece(Move move) {
-        return new Rook(alliance, move.getDestCordinate(), PieceType.ROOK);
+        return new Rook(alliance, move.getDestCordinate());
     }
 
     @Override
