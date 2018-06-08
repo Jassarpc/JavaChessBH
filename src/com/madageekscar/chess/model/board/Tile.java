@@ -34,6 +34,10 @@ public abstract class Tile {
     public abstract boolean isOccuped();
     public abstract Piece getPiece();
 
+    public int getTileCordinate() {
+        return this.cordinate;
+    }
+
     public static final class EmptyTile extends Tile{
         private EmptyTile(final int cordinate){
             super(cordinate);

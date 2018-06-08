@@ -34,7 +34,7 @@ public class King extends Piece {
     }
 
     @Override
-    public Piece movedPiece(Move move) {
+    public King movedPiece(Move move) {
         return new King(this.alliance, move.getDestCordinate());
     }
 

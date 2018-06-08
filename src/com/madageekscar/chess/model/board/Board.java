@@ -19,6 +19,7 @@ public class Board {
     private final BlackPlayer blackPlayer;
     private final Player currentPlayer;
 
+
     public Board(Builder b) {
         this.gameBoard = createGameBoard(b);
         this.blackPieces = calculateActivePieaces(this.gameBoard, Alliance.BLACK);
@@ -29,6 +30,7 @@ public class Board {
         this.blackPlayer = new BlackPlayer(this, blackStdLegalMoves, blackStdLegalMoves);
         this.currentPlayer = b.nextMoveMaker.choosePlayer(this.whitePlayer, this.blackPlayer);
     }
+
 
     private static Collection<Piece> calculateActivePieaces(final List<Tile> gameBoard, final Alliance alliance) {
         final List<Piece> activePieces = new ArrayList<>();
@@ -50,6 +52,7 @@ public class Board {
         builder.setPiece(new Knight(Alliance.BLACK, 1));
         builder.setPiece(new Bishop(Alliance.BLACK, 2));
         builder.setPiece(new Queen(Alliance.BLACK, 3));
+        builder.setPiece(new King(Alliance.BLACK, 4));
         builder.setPiece(new Bishop(Alliance.BLACK, 5));
         builder.setPiece(new Knight(Alliance.BLACK, 6));
         builder.setPiece(new Rook(Alliance.BLACK, 7));
@@ -163,6 +166,10 @@ public class Board {
 
         public Board build() {
             return new Board(this);
+        }
+
+        public void setEnPassantPawn(Pawn movedPawn) {
+
         }
     }
 }

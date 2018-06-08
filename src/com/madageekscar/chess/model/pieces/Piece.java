@@ -16,7 +16,7 @@ public abstract class Piece {
     Piece(int cordinate, Alliance alliance, PieceType pieceType) {
         this.cordinate = cordinate;
         this.alliance = alliance;
-        this.isFirstMove = false;
+        this.isFirstMove = true;
         this.pieceType = pieceType;
         this.cachedHashCode = computeHashCode();
     }
@@ -71,6 +71,7 @@ public abstract class Piece {
                 alliance == ((Piece) obj).getAlliance() &&
                 isFirstMove == ((Piece) obj).isFirstMove();
     }
+
 
     public enum PieceType {
         PAWN("P") {

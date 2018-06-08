@@ -1,6 +1,7 @@
 package com.madageekscar.chess.model.player;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import com.madageekscar.chess.model.Alliance;
 import com.madageekscar.chess.model.board.Board;
 import com.madageekscar.chess.model.board.Move;
@@ -23,12 +24,12 @@ public abstract class Player {
            final Collection<Move> opponentMoves) {
         this.board = board;
         this.playerKing = establishKing();
-        this.legalMoves = legalMoves;
+        this.legalMoves = ImmutableList.copyOf(Iterables.concat(legalMoves, calculateKingCastles(legalMoves, opponentMoves)));
         this.isIncheck = !Player.calculateAttackOnTile(this.playerKing.getCordinate(), opponentMoves).isEmpty();
 
     }
 
-    private static Collection<Move> calculateAttackOnTile(int cordinate, Collection<Move> moves) {
+    public static Collection<Move> calculateAttackOnTile(int cordinate, Collection<Move> moves) {
         List<Move> attacks = new ArrayList<>();
         for (final Move move : moves) {
             if (cordinate == move.getDestCordinate()) {
@@ -102,4 +103,6 @@ public abstract class Player {
     public abstract Alliance getAlliance();
 
     public abstract Player getOpponent();
+
+    protected abstract Collection<Move> calculateKingCastles(Collection<Move> legalMoves, Collection<Move> opponentsLegMoves);
 }
